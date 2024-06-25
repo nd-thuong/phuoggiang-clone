@@ -1,0 +1,21 @@
+@import '@/styles/mixin.scss';
+
+.carousel-item {
+  position: relative;
+  height: 600px;
+  @media (max-width: $sm-min-width) {
+    height: 300px;
+  }
+  .carousel-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10;
+    p {
+      max-width: 500px;
+      text-align: center;
+    }
+  }
+}

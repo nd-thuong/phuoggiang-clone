@@ -1,0 +1,17 @@
+FROM postgres:latest as postgres
+
+# COPY .env /docker-entrypoint-initdb.d/env_file
+ENV POSTGRES_USER=mydb
+ENV POSTGRES_PASSWORD=mk123456
+ENV POSTGRES_DB=phuonggiang
+
+
+# Đặt các biến ARG để nhận các giá trị từ docker-compose.yml
+# ARG POSTGRES_USER
+# ARG POSTGRES_PASSWORD
+# ARG POSTGRES_DB
+
+# Sử dụng ENV để set các biến môi trường từ ARG cho các phiên bản chạy của container
+# ENV POSTGRES_USER=${POSTGRES_USER}
+# ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+# ENV POSTGRES_DB=${POSTGRES_DB}

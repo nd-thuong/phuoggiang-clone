@@ -1,0 +1,78 @@
+@import '@/styles/mixin.scss';
+
+.main-header {
+  display: flex;
+  flex-direction: column;
+
+  .header-top {
+    background: #f3bf05;
+    padding: 10px 0;
+    &-text {
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 20px;
+      color: var(--primary-color);
+    }
+  }
+  .logo {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    img {
+      @media (max-width: $sm-min-width) {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .text-shopping {
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--primary-color);
+    white-space: nowrap;
+  }
+}
+
+.input-mobile {
+  position: absolute;
+  top: 60px;
+  left: 0px;
+  right: 0px;
+  .ant-input {
+    height: 48px;
+  }
+  .ant-input-group-addon {
+    button {
+      height: 48px;
+    }
+  }
+}
+
+.drawer-custom {
+  &-footer {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    li > a {
+      color: var(--primary-color);
+      font-size: 15px;
+    }
+  }
+}
+
+.header-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: top ease-in-out 0.9s;
+}
+
+.temp-block {
+  height: 118px;
+  @media (max-width: $sm-min-width) {
+    height: 98px;
+  }
+}
