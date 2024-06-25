@@ -28,20 +28,20 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
 
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    depends_on:
-      - backend
-    networks:
-      - postgres
-    env_file:
-      - ./frontend/.env
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #   depends_on:
+  #     - backend
+  #   networks:
+  #     - postgres
+  #   env_file:
+  #     - ./frontend/.env
 
   backend:
     build:
