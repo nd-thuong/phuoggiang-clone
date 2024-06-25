@@ -47,7 +47,7 @@ config();
         } else if (nodeEnv === 'production') {
           // For production, use the provided environment variables
           url = `postgresql://${configService.get<string>(
-            'POSTGRES_USERNAME',
+            'POSTGRES_USER',
           )}:${configService.get<string>(
             'POSTGRES_PASSWORD',
           )}@${configService.get<string>(
@@ -58,7 +58,7 @@ config();
         } else {
           // Default to local development
           url = `postgresql://${configService.get<string>(
-            'POSTGRES_USERNAME',
+            'POSTGRES_USER',
           )}:${configService.get<string>(
             'POSTGRES_PASSWORD',
           )}@localhost:5000/${configService.get<string>('POSTGRES_DB')}`;
