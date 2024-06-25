@@ -12,7 +12,6 @@ import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 
 async function bootstrap() {
-  console.log('process.env.POSTGRES_USERNAMEE', process.env.POSTGRES_USERNAMEE);
   const app = await NestFactory.create(AppModule, {
     // logger: process.env.NODE_ENV === 'production' ? ['log', 'error'] : ['log'],
     logger: ['log', 'warn', 'error'],

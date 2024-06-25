@@ -63,6 +63,7 @@ config();
             'POSTGRES_PASSWORD',
           )}@localhost:5000/${configService.get<string>('POSTGRES_DB')}`;
         }
+        console.log(url);
         return {
           type: 'postgres',
           url,
