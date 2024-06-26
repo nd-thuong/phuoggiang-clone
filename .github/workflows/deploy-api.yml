@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: SSH into Ubuntu Server and Deploy
         uses: appleboy/ssh-action@v1.0.0
@@ -26,12 +26,6 @@ jobs:
             fi
 
             cd phuoggiang-clone/backend
-
-            # Ensure we are in a git repository
-            if [ ! -d ".git" ]; then
-              echo "Not a git repository."
-              exit 1
-            fi
 
             git checkout main
             git fetch -p
