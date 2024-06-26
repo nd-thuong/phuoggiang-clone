@@ -8,19 +8,19 @@ jobs:
   deploy_api:
     runs-on: self-hosted
 
-    strategy:
-      matrix:
-        node-version: [20.15.0]
+    # strategy:
+    #   matrix:
+    #     node-version: [20.15.0]
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          # cache: "npm"
+      # - name: Use Node.js ${{ matrix.node-version }}
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: ${{ matrix.node-version }}
+      #     # cache: "npm"
 
       - name: SSH into Ubuntu Server and Deploy
         uses: appleboy/ssh-action@v1.0.0
@@ -33,15 +33,16 @@ jobs:
             # Hiển thị phiên bản Node.js hiện tại
               echo "Node.js version $(node -v) is installed."
 
-            # Hiển thị phiên bản ubuntu hiện tại
-              echo "ubuntu version $(lsb_release -a) is installed."
-
-            # Hiển thị phiên bản nvm hiện tại
-              echo "nvm version $(sudo nvm -v) is installed."
-
             # Clone the repository if not already cloned
             if [ ! -d "phuoggiang-clone" ]; then
               git clone https://github.com/nd-thuong/phuoggiang-clone.git
+            fi
+
+            # Install Node.js and npm if not installed
+            if ! command -v npm &> /dev/null; then
+              echo "npm could not be found, installing Node.js and npm"
+              curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+              sudo apt-get install -y nodejs
             fi
 
             cd phuoggiang-clone/backend
