@@ -33,7 +33,7 @@ jobs:
               echo "ubuntu version $(lsb_release -a) is installed."
 
             # Hiển thị phiên bản nvm hiện tại
-              echo "nvm version $(nvm -v) is installed."
+              echo "nvm version $(sudo nvm -v) is installed."
 
             # Clone the repository if not already cloned
             if [ ! -d "phuoggiang-clone" ]; then
