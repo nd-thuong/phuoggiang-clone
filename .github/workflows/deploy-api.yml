@@ -8,19 +8,9 @@ jobs:
   deploy_api:
     runs-on: self-hosted
 
-    # strategy:
-    #   matrix:
-    #     node-version: [20.15.0]
-
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      # - name: Use Node.js ${{ matrix.node-version }}
-      #   uses: actions/setup-node@v3
-      #   with:
-      #     node-version: ${{ matrix.node-version }}
-      #     # cache: "npm"
 
       - name: SSH into Ubuntu Server and Deploy
         uses: appleboy/ssh-action@v1.0.0
@@ -31,12 +21,16 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             # Hiển thị phiên bản Node.js hiện tại
-              echo "Node.js version $(node -v) is installed."
+            echo "Node.js version $(node -v) is installed."
 
             # Clone the repository if not already cloned
             if [ ! -d "phuoggiang-clone" ]; then
               git clone https://github.com/nd-thuong/phuoggiang-clone.git
             fi
+
+            # Pull the latest changes
+            cd phuoggiang-clone
+            git pull origin main
 
             # Install Node.js and npm if not installed
             if ! command -v npm &> /dev/null; then
@@ -47,7 +41,26 @@ jobs:
               echo "Node.js and npm are already installed"
             fi
 
-            cd phuoggiang-clone/backend
+            # Thiết lập file .env cho backend
+            cd backend
+            cat <<EOF > .env
+            APP_JWT_ACCESS_TOKEN_KEY=${{ secrets.APP_JWT_ACCESS_TOKEN_KEY }}
+            APP_JWT_ACCESS_TOKEN_SECRET=${{ secrets.APP_JWT_ACCESS_TOKEN_SECRET }}
+            APP_JWT_ACCESS_TOKEN_EXPIRATION_TIME=${{ secrets.APP_JWT_ACCESS_TOKEN_EXPIRATION_TIME }}
+            APP_JWT_REFRESH_TOKEN_KEY=${{ secrets.APP_JWT_REFRESH_TOKEN_KEY }}
+            APP_JWT_REFRESH_TOKEN_SECRET=${{ secrets.APP_JWT_REFRESH_TOKEN_SECRET }}
+            APP_HASH_PASSWORD_KEY=${{ secrets.APP_HASH_PASSWORD_KEY }}
+            POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}
+            POSTGRES_PORT=${{ secrets.POSTGRES_PORT }}
+            POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+            POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+            POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+            POSTGRES_URL=${{ secrets.POSTGRES_URL }}
+            CLOUDINARY_CLOUD_NAME=${{ secrets.CLOUDINARY_CLOUD_NAME }}
+            CLOUDINARY_API_KEY=${{ secrets.CLOUDINARY_API_KEY }}
+            CLOUDINARY_API_SECRET=${{ secrets.CLOUDINARY_API_SECRET }}
+            NODE_ENV=${{ secrets.NODE_ENV }}
+            EOF
 
             sudo npm install
             sudo npm run build
