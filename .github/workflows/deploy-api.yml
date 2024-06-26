@@ -64,4 +64,4 @@ jobs:
 
             sudo npm install
             sudo npm run build
-            sudo npm run start:prod
+            # sudo npm run start:prod
