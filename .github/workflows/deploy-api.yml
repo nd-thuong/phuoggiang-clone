@@ -2,7 +2,7 @@ name: Deploy api
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 # jobs:
 #   build:
@@ -15,15 +15,15 @@ on:
 #         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
 #     steps:
-    # - uses: actions/checkout@v4
-    # - name: Use Node.js ${{ matrix.node-version }}
-    #   uses: actions/setup-node@v3
-    #   with:
-    #     node-version: ${{ matrix.node-version }}
-    #     cache: 'npm'
-    # - run: npm ci
-    # - run: npm run build --if-present
-    # - run: npm test
+# - uses: actions/checkout@v4
+# - name: Use Node.js ${{ matrix.node-version }}
+#   uses: actions/setup-node@v3
+#   with:
+#     node-version: ${{ matrix.node-version }}
+#     cache: 'npm'
+# - run: npm ci
+# - run: npm run build --if-present
+# - run: npm test
 
 jobs:
   deploy_qa:
@@ -36,10 +36,10 @@ jobs:
       - name: SSH into Ubuntu Server and Deploy
         uses: appleboy/ssh-action@v1.0.0
         with:
-          host: ${{ secrets.QA_SERVER_HOST }}
-          username: ${{ secrets.QA_SERVER_USERNAME }}
-          password: ${{ secrets.QA_SERVER_PASSWORD }}
-          port: ${{ secrets.QA_SERVER_PORT }}
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
           script: |
             cd backend
             git checkout main
