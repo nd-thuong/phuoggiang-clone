@@ -27,16 +27,16 @@ jobs:
 
             cd phuoggiang-clone/backend
 
-            git checkout main
-            git fetch -p
-            git pull
+            # git checkout main
+            # git fetch -p
+            # git pull
 
             # Install Node.js and npm if not installed
-            if ! command -v npm &> /dev/null; then
-              echo "npm could not be found, installing Node.js and npm"
-              curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-              sudo apt-get install -y nodejs
-            fi
+            # if ! command -v npm &> /dev/null; then
+            #   echo "npm could not be found, installing Node.js and npm"
+            #   curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+            #   sudo apt-get install -y nodejs
+            # fi
 
             npm install
             npm run build
