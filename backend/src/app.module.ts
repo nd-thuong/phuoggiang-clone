@@ -40,31 +40,10 @@ config();
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
         console.log('processssss', process.env.NODE_ENV);
-        const nodeEnv = configService.get<string>('NODE_ENV');
-        let url: string;
+        // const nodeEnv = configService.get<string>('NODE_ENV');
+        const url: string = configService.get<string>('POSTGRES_URL');
 
-        if (nodeEnv === 'docker') {
-          url = configService.get<string>('POSTGRES_URL'); // For Docker
-        } else if (nodeEnv === 'production') {
-          // For production, use the provided environment variables
-          url = `postgresql://${configService.get<string>(
-            'POSTGRES_USER',
-          )}:${configService.get<string>(
-            'POSTGRES_PASSWORD',
-          )}@${configService.get<string>(
-            'POSTGRES_HOST',
-          )}:${configService.get<string>(
-            'POSTGRES_PORT',
-          )}/${configService.get<string>('POSTGRES_DB')}`;
-        } else {
-          // Default to local development
-          url = `postgresql://${configService.get<string>(
-            'POSTGRES_USER',
-          )}:${configService.get<string>(
-            'POSTGRES_PASSWORD',
-          )}@localhost:5000/${configService.get<string>('POSTGRES_DB')}`;
-        }
-        console.log(url);
+        console.log('url:', url);
         return {
           type: 'postgres',
           url,
