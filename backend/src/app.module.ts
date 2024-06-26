@@ -39,6 +39,7 @@ config();
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
+        console.log('processssss', process.env.NODE_ENV);
         const nodeEnv = configService.get<string>('NODE_ENV');
         let url: string;
 
