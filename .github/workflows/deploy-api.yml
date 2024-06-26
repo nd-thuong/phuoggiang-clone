@@ -26,7 +26,7 @@ on:
 # - run: npm test
 
 jobs:
-  deploy_qa:
+  deploy_api:
     runs-on: ubuntu-latest
 
     steps:
