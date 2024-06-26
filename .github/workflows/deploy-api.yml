@@ -20,9 +20,31 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            cd ~/backend
+            # Check if backend directory exists
+            if [ ! -d "backend" ]; then
+              echo "Directory backend does not exist."
+              exit 1
+            fi
+
+            cd backend
+
+            # Ensure we are in a git repository
+            if [ ! -d ".git" ]; then
+              echo "Not a git repository."
+              exit 1
+            fi
+
             git checkout main
             git fetch -p
             git pull
+
+            # Install Node.js and npm if not installed
+            if ! command -v npm &> /dev/null; then
+              echo "npm could not be found, installing Node.js and npm"
+              curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+            fi
+
+            npm install
             npm run build
             npm run start:prod
