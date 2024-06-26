@@ -47,6 +47,9 @@ jobs:
               echo "Node.js and npm are already installed"
             fi
 
+            git fetch -p
+            git pull
+
             cd phuoggiang-clone/backend
 
             npm install
