@@ -20,13 +20,12 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            # Check if backend directory exists
-            if [ ! -d "backend" ]; then
-              echo "Directory backend does not exist."
-              exit 1
+            # Clone the repository if not already cloned
+            if [ ! -d "phuoggiang-clone" ]; then
+              git clone https://github.com/nd-thuong/phuoggiang-clone.git
             fi
 
-            cd backend
+            cd phuoggiang-clone/backend
 
             # Ensure we are in a git repository
             if [ ! -d ".git" ]; then
