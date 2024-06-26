@@ -47,11 +47,8 @@ jobs:
               echo "Node.js and npm are already installed"
             fi
 
-            git fetch -p
-            git pull
-
             cd phuoggiang-clone/backend
 
-            npm install
-            npm run build
-            npm run start:prod
+            sudo npm install
+            sudo npm run build
+            sudo npm run start:prod
