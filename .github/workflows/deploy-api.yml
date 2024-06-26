@@ -8,15 +8,19 @@ jobs:
   deploy_api:
     runs-on: self-hosted
 
+    strategy:
+      matrix:
+        node-version: [20.15.0]
+
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: "20.15.0"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
+      #- name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
 
       - name: SSH into Ubuntu Server and Deploy
         uses: appleboy/ssh-action@v1.0.0
