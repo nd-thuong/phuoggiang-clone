@@ -20,6 +20,9 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
+            # Hiển thị phiên bản Node.js hiện tại
+              echo "Node.js version $(node -v) is installed."
+
             # Clone the repository if not already cloned
             if [ ! -d "phuoggiang-clone" ]; then
               git clone https://github.com/nd-thuong/phuoggiang-clone.git
