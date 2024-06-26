@@ -41,6 +41,13 @@ jobs:
               echo "Node.js and npm are already installed"
             fi
 
+            if ! command -v pm2 &> /dev/null; then
+              echo "pm2 could not be found, installing pm2"
+              sudo npm install -g pm2
+            else
+              echo "pm2 is already installed"
+            fi
+
             # Thiết lập file .env cho backend
             cd backend
             cat <<EOF > .env
