@@ -2,7 +2,7 @@ name: Deploy api
 
 on:
   push:
-    branches: ["main"]
+    branches: ["main-api"]
 
 jobs:
   deploy_api:
@@ -30,7 +30,7 @@ jobs:
 
             # Pull the latest changes
             cd phuoggiang-clone
-            git pull origin main
+            git pull origin main-api
 
             # Install Node.js and npm if not installed
             if ! command -v npm &> /dev/null; then
@@ -72,5 +72,5 @@ jobs:
             pm2 delete nestjs-app || true 
             sudo npm install
             sudo npm run build
-            pm2 start dist/main.js --name nestjs-app --watch --time
-            pm2 save
+            # pm2 start dist/main.js --name nestjs-app --watch --time
+            # pm2 save
