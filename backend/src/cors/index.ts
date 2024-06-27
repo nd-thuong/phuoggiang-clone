@@ -1,16 +1,15 @@
-import { corsNotAllowed, getOrigin, getPath } from '@/helpers/request.helper';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
+
 import { Request } from 'express';
-import { CorsConfig } from './cors-config.model';
+import { corsNotAllowed, getOrigin, getPath } from '@/helpers/request.helper';
+import { CorsConfig } from './cors.config';
 
 export const corsOptionsDelegate =
-  (corsConfig: CorsConfig) =>
+  (corsConfig: typeof CorsConfig) =>
   (req: Request, callback: (err: Error, options: CorsOptions) => void) => {
     const corsOptions: CorsOptions = {
       methods: corsConfig.allowedMethods,
       credentials: corsConfig.allowedCredentials,
-      // allowedHeaders: corsConfig.allowedHeaders,
-      // exposedHeaders: corsConfig.exposedHeaders,
       origin: false,
     };
     let error: Error | null = null;

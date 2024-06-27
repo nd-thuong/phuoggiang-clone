@@ -10,13 +10,14 @@ import * as moment from 'moment-timezone';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
+import { corsOptionsDelegate } from './cors';
+import { CorsConfig } from './cors/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     // logger: process.env.NODE_ENV === 'production' ? ['log', 'error'] : ['log'],
     logger: ['log', 'warn', 'error'],
   });
-  // const corsConfig = configService.get<CorsConfig>('CORS');
 
   const reflector = app.get(Reflector);
   // Đặt múi giờ mặc định
@@ -29,15 +30,15 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
-  // app.enableCors(corsOptionsDelegate(corsConfig));
-  app.enableCors({
-    // origin: '*',
-    origin: 'http://localhost:3000',
-    preflightContinue: false,
-    credentials: true,
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  });
+  app.enableCors(corsOptionsDelegate(CorsConfig));
+  // app.enableCors({
+  //   // origin: '*',
+  //   origin: 'http://localhost:3000',
+  //   preflightContinue: false,
+  //   credentials: true,
+  //   allowedHeaders: ['Content-Type', 'Authorization'],
+  //   methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  // });
 
   // các api bắt đầu với tiền tố api/
   app.setGlobalPrefix('api');

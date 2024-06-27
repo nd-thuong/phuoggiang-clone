@@ -1,6 +1,4 @@
-export = {
-  // allowedHeaders: ['content-type', 'content-length', 'authorization', 'refresh'],
-  // exposedHeaders: ['content-type', 'content-length', 'authorization', 'refresh'],
+export const CorsConfig = {
   allowedOrigins: ['http://localhost:3000'],
   allowedUrls: [],
   allowedPaths: [],
