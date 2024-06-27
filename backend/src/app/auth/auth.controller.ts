@@ -95,8 +95,8 @@ export class AuthController {
             maxAge: accessToken.expiresIn,
             // sameSite: 'strict',
             path: '/',
-            sameSite: 'none', // Đảm bảo sử dụng HTTPS khi dùng tùy chọn này
-            secure: true,
+            sameSite: 'lax', // Đảm bảo sử dụng HTTPS khi dùng tùy chọn này
+            // secure: true,
           },
         ),
       ]);
@@ -158,8 +158,8 @@ export class AuthController {
           maxAge: token.accessToken.expiresIn,
           // sameSite: 'strict',
           path: '/',
-          sameSite: 'none', // Đảm bảo sử dụng HTTPS khi dùng tùy chọn này
-          secure: true,
+          sameSite: 'lax', // Đảm bảo sử dụng HTTPS khi dùng tùy chọn này
+          // secure: true,
         },
       ),
     ]);
