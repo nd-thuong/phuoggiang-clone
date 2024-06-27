@@ -18,7 +18,6 @@ async function bootstrap() {
     // logger: process.env.NODE_ENV === 'production' ? ['log', 'error'] : ['log'],
     logger: ['log', 'warn', 'error'],
   });
-  // const corsConfig = configService.get<CorsConfig>('CORS');
 
   const reflector = app.get(Reflector);
   // Đặt múi giờ mặc định
