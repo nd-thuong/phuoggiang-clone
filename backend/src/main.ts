@@ -31,8 +31,8 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
   // app.enableCors(corsOptionsDelegate(corsConfig));
   app.enableCors({
-    // origin: '*',
-    origin: 'http://localhost:3000',
+    origin: '*',
+    // origin: 'http://localhost:3000',
     preflightContinue: false,
     credentials: true,
     allowedHeaders: ['Content-Type', 'Authorization'],

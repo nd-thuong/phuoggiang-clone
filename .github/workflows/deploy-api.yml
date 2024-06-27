@@ -74,4 +74,3 @@ jobs:
             sudo npm run build
             pm2 start dist/main.js --name nestjs-app --watch --time
             pm2 save
-            # sudo npm run start:prod
