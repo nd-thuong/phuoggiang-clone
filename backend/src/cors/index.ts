@@ -2,10 +2,10 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 
 import { Request } from 'express';
 import { corsNotAllowed, getOrigin, getPath } from '@/helpers/request.helper';
-import { CorsConfig } from '@/utils/cors-config.model';
+import { CorsConfig } from './cors.config';
 
 export const corsOptionsDelegate =
-  (corsConfig: CorsConfig) =>
+  (corsConfig: typeof CorsConfig) =>
   (req: Request, callback: (err: Error, options: CorsOptions) => void) => {
     const corsOptions: CorsOptions = {
       methods: corsConfig.allowedMethods,

@@ -11,7 +11,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as cookieParser from 'cookie-parser';
 import * as express from 'express';
 import { corsOptionsDelegate } from './cors';
-import corsConfig from './configs/cors.config';
+import { CorsConfig } from './cors/cors.config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -31,7 +31,7 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
-  app.enableCors(corsOptionsDelegate(corsConfig));
+  app.enableCors(corsOptionsDelegate(CorsConfig));
   // app.enableCors({
   //   // origin: '*',
   //   origin: 'http://localhost:3000',
