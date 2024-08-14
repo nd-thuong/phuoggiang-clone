@@ -1,5 +1,5 @@
-import { toVietnamTimezone } from '@/helpers/request.helper';
-import { ProductEntity } from '@/app/product/product.entity';
+// import { toVietnamTimezone } from '@/helpers/request.helper';
+import { ProductEntity } from '@/app/product/entities/product.entity';
 import { BaseEntity } from '@/utils/Base.entity';
 import {
   BeforeInsert,
@@ -26,18 +26,18 @@ export class SizeEntity extends BaseEntity {
   @OneToMany(() => ProductEntity, (product) => product.size)
   products: ProductEntity[];
 
-  @BeforeInsert()
-  setCreateDate() {
-    this.createdAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeInsert()
+  // setCreateDate() {
+  //   this.createdAt = toVietnamTimezone(new Date());
+  // }
 
-  @BeforeUpdate()
-  setUpdateDate() {
-    this.updatedAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeUpdate()
+  // setUpdateDate() {
+  //   this.updatedAt = toVietnamTimezone(new Date());
+  // }
 
-  @BeforeRemove()
-  setDeleteDate() {
-    this.deletedAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeRemove()
+  // setDeleteDate() {
+  //   this.deletedAt = toVietnamTimezone(new Date());
+  // }
 }

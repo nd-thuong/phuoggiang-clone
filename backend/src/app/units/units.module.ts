@@ -10,5 +10,6 @@ import { AdminUnitsController } from './controller/admin-units.controller';
   controllers: [UnitsController, AdminUnitsController],
   providers: [UnitService],
   imports: [TypeOrmModule.forFeature([UnitEntity]), LoggerModule],
+  exports: [UnitService],
 })
 export class UnitsModule {}

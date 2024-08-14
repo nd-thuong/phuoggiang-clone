@@ -1,0 +1,17 @@
+.sun-editor {
+  border-radius: 8px 8px 0 0;
+  border: 1px solid rgb(232, 232, 232);
+  svg {
+    color: #757575;
+  }
+  .se-btn:enabled.active {
+    background-color: #ff1493 !important;
+    svg {
+      color: white !important;
+    }
+  }
+
+  .se-toolbar {
+    border-radius: 8px 8px 0 0;
+  }
+}

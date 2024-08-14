@@ -9,4 +9,10 @@ export enum GenderEnum {
   FEMALE = 'female',
 }
 
+export enum BooleanSearchEnum {
+  YES = 'Yes',
+  NO = 'No',
+  BOTH = 'Both',
+}
+
 export const MaxSizeFile = 1024 * 1024 * 5 * 20;

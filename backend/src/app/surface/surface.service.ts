@@ -10,6 +10,7 @@ import { QuerySearchDto } from '@/utils/query-search.dto';
 import { SurfaceEntity } from './entities/surface.entity';
 import { CreateSurfaceDto } from './dto/create-surface.dto';
 import { UpdateSurfaceDto } from './dto/update-surface.dto';
+import { ResponseResult } from '@/constants/response-result';
 
 @Injectable()
 export class SurfaceService {
@@ -32,21 +33,27 @@ export class SurfaceService {
     }
   }
 
-  async findAll(valueQuery: QuerySearchDto): Promise<SurfaceEntity[]> {
+  async findAll(
+    valueQuery: QuerySearchDto,
+  ): Promise<ResponseResult<SurfaceEntity>> {
     try {
       const { page, take, keySearch, sortOrder } = valueQuery;
       const query = this.surfaceRepo.createQueryBuilder('surface');
       // query.leftJoinAndSelect('surface.products', 'product');
       if (keySearch) {
-        query.where('surface.name LIKE :name OR surface.code LIKE :code', {
+        query.where('surface.name ILIKE :name OR surface.code ILIKE :code', {
           name: `%${keySearch}%`,
           code: `%${keySearch}%`,
         });
       }
       query.orderBy('surface.createdAt', sortOrder || 'DESC');
+      const totalCount = (await query.getMany()).length;
       query.skip((page - 1) * take).take(take);
 
-      return await query.getMany();
+      return {
+        items: await query.getMany(),
+        totalCount,
+      };
     } catch (error) {
       throw new BadRequestException('Đã có lỗi xảy ra');
     }

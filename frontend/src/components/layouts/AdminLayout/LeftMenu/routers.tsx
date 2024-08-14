@@ -1,4 +1,4 @@
-import { AppstoreOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, SaveOutlined } from '@ant-design/icons';
 
 type MenuItem = {
   key: string;
@@ -49,10 +49,23 @@ export const routes: MenuItem[] = [
         label: 'Bề mặt',
         type: '/be-mat',
       },
-      // {
-      //   key: '/quan-ly/xuong-gach',
-      //   label: ''
-      // },
+    ],
+  },
+  {
+    icon: <SaveOutlined />,
+    key: '/quan-ly-kho',
+    label: 'Kho',
+    children: [
+      {
+        key: '/quan-ly/nhap-kho',
+        label: 'Sản phẩm nhập kho',
+        type: '/quan-ly/nhap-kho',
+      },
+      {
+        key: '/quan-ly/ton-kho',
+        label: 'Sản phẩm tồn kho',
+        type: '/quan-ly/ton-kho',
+      },
     ],
   },
 ];

@@ -1,5 +1,5 @@
 import { ConfigProvider, Flex, Layout, ThemeConfig } from 'antd';
-import { Poppins } from 'next/font/google';
+import { Open_Sans } from 'next/font/google';
 import React, { ReactNode, useEffect, useState } from 'react';
 import TopMenu from './TopMenu';
 import LeftMenu from './LeftMenu';
@@ -16,16 +16,16 @@ type Props = {
   children: ReactNode;
   userInfo?: TypeResMe;
 };
-const adminFont = Poppins({
+const adminFont = Open_Sans({
   subsets: ['latin'],
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  weight: ['300', '400', '500', '600', '700', '800'],
   display: 'swap',
   style: ['normal'],
   variable: '--admin-font',
 });
 const theme: ThemeConfig = {
   token: {
-    // colorPrimary: '#005ceb',
+    colorPrimary: '#1da1f2',
     fontFamily: adminFont.style.fontFamily,
   },
   components: {

@@ -39,7 +39,7 @@ const renderChildren = ({
   onClear,
   dropdownRender,
   onSelect,
-  allowClear,
+  allowclear = true,
   picker,
   radioInline,
   disabledKeys,
@@ -65,6 +65,8 @@ const renderChildren = ({
   className,
   size = 'middle',
   mode,
+  checkedChildren,
+  unCheckedChildren,
 }: RenderChildrenProps) => ({
   input: (
     <Input
@@ -86,6 +88,7 @@ const renderChildren = ({
       suffix={suffix}
       prefix={prefix}
       min={minNumber}
+      className="w-full"
     />
   ),
   inputPassword: (
@@ -114,7 +117,7 @@ const renderChildren = ({
   ),
   select: (
     <FormSelect
-      allowClear={allowClear}
+      allowclear={allowclear}
       options={data}
       onChange={onChange}
       onSearch={onSearch}
@@ -151,14 +154,14 @@ const renderChildren = ({
             ]
       }
       value={value}
-      allowClear={allowClear}
+      allowClear={allowclear}
       picker={picker}
     />
   ),
   datePicker: (
     <DatePicker
       disabled={disabled}
-      allowClear={allowClear}
+      allowClear={allowclear}
       disabledDate={disabledDate}
       format={format || [variables.DATE_FORMAT.DATE, variables.DATE_FORMAT.DATE_VI]}
       onChange={onChange}
@@ -170,7 +173,7 @@ const renderChildren = ({
   monthYearPicker: (
     <DatePicker
       disabled={disabled}
-      allowClear={allowClear}
+      allowClear={allowclear}
       disabledDate={disabledDate}
       format={variables.DATE_FORMAT.MONTH_YEAR}
       onChange={onChange}
@@ -186,7 +189,7 @@ const renderChildren = ({
       onChange={onChange}
       placeholder="Chọn"
       picker="month"
-      allowClear={allowClear}
+      allowClear={allowclear}
       value={value}
     />
   ),
@@ -198,7 +201,7 @@ const renderChildren = ({
       onChange={onChange}
       placeholder="Chọn"
       picker="year"
-      allowClear={allowClear}
+      allowClear={allowclear}
       value={value}
     />
   ),
@@ -210,7 +213,7 @@ const renderChildren = ({
       onChange={onChange}
       placeholder="Chọn"
       picker="week"
-      allowClear={allowClear}
+      allowClear={allowclear}
       value={value}
     />
   ),
@@ -327,7 +330,14 @@ const renderChildren = ({
       )}
     </Radio.Group>
   ),
-  switch: <Switch onChange={onChange} checked={checked} />,
+  switch: (
+    <Switch
+      onChange={onChange}
+      checked={checked}
+      checkedChildren={checkedChildren}
+      unCheckedChildren={unCheckedChildren}
+    />
+  ),
 });
 
 const FormItem: React.FC<FormItemProps> = ({ type, label, rules, ...rest }) => {

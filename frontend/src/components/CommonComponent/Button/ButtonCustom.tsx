@@ -10,6 +10,7 @@ interface Props {
   loading?: boolean;
   onClick?: () => void;
   className?: string;
+  icon?: ReactNode | string;
 }
 export const ButtonCustom: React.FC<Props> = ({
   type = 'primary',
@@ -18,6 +19,7 @@ export const ButtonCustom: React.FC<Props> = ({
   loading = false,
   onClick,
   className,
+  icon = '',
 }) => {
   let bgColor = '';
   switch (type) {
@@ -42,6 +44,7 @@ export const ButtonCustom: React.FC<Props> = ({
         className={csx(`btn-${type}`, className, bgColor)}
         htmlType={htmlType}
         loading={loading}
+        icon={icon}
       >
         {children}
       </Button>
@@ -54,6 +57,7 @@ export const ButtonCustom: React.FC<Props> = ({
         className={csx(`btn-${type}`, className, bgColor)}
         loading={loading}
         onClick={onClick}
+        icon={icon}
       >
         {children}
       </Button>

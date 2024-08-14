@@ -45,16 +45,16 @@ export class CloudinaryService {
     return await Promise.all(promises);
   }
 
-  async removeFile(publicId: string): Promise<boolean> {
+  async removeFile(publicId: string, id: string): Promise<boolean> {
     return new Promise<boolean>((resolve, reject) => {
       cloudinary.uploader.destroy(publicId, async (error, result) => {
         if (error) return reject(error);
         if (result?.result === 'not found')
           return reject({ message: `Không tìm thấy file: ${publicId}` });
         const fileRsult = await this.fileRepository.findOneBy({
-          filename: publicId,
+          id,
         });
-        if (fileRsult.id) {
+        if (fileRsult) {
           await this.fileRepository.remove(fileRsult);
         }
         resolve(true);
@@ -62,10 +62,10 @@ export class CloudinaryService {
     });
   }
 
-  async removeFiles(filenames: string[]): Promise<boolean[]> {
-    const promises = filenames.map((filename) => {
-      return this.removeFile(filename);
-    });
-    return await Promise.all(promises);
-  }
+  // async removeFiles(filenames: string, id: string): Promise<boolean[]> {
+  //   const promises = filenames.map((filename) => {
+  //     return this.removeFile(filename);
+  //   });
+  //   return await Promise.all(promises);
+  // }
 }

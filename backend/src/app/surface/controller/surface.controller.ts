@@ -28,8 +28,8 @@ export class SurfaceController {
   ): Promise<ResponseResult<SurfaceEntity>> {
     const data = await this.surfaceService.findAll(query);
     return {
-      items: data,
-      totalCount: data.length,
+      items: data.items,
+      totalCount: data.totalCount,
     };
   }
 

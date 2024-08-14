@@ -12,7 +12,9 @@ import { BrandEntity } from '../entities/brand.entity';
 import { ResponseResult } from '@/constants/response-result';
 import { QuerySearchDto } from '@/utils/query-search.dto';
 import { ValidationQuery } from '@/middleware/ValidationQuery';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('brands')
 @Controller('brands')
 export class BrandsController {
   constructor(private readonly brandService: BrandService) {}
@@ -25,8 +27,8 @@ export class BrandsController {
   ): Promise<ResponseResult<BrandEntity>> {
     const brands = await this.brandService.findAll(query);
     return {
-      items: brands,
-      totalCount: brands.length,
+      items: brands.items,
+      totalCount: brands.totalCount,
     };
   }
 

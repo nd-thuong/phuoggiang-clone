@@ -11,6 +11,7 @@ import { EntityManager, In, Repository } from 'typeorm';
 import { BrandEntity } from '@/app/brands/entities/brand.entity';
 import { generateName } from '@/utils/generate-code';
 import { QuerySearchDto } from '@/utils/query-search.dto';
+import { ResponseResult } from '@/constants/response-result';
 
 @Injectable()
 export class ProductGroupsService {
@@ -48,7 +49,9 @@ export class ProductGroupsService {
     }
   }
 
-  async findAll(query: QuerySearchDto): Promise<ProductGroupEntity[]> {
+  async findAll(
+    query: QuerySearchDto,
+  ): Promise<ResponseResult<ProductGroupEntity>> {
     try {
       const { page, take, keySearch, sortOrder } = query;
       const queryBuilder =
@@ -56,7 +59,7 @@ export class ProductGroupsService {
       queryBuilder.leftJoinAndSelect('productGroup.brands', 'brand');
       if (keySearch) {
         queryBuilder.where(
-          'productGroup.name LIKE :name OR productGroup.code LIKE :code',
+          'productGroup.name ILIKE :name OR productGroup.code ILIKE :code',
           {
             name: `%${keySearch}%`,
             code: `%${keySearch}%`,
@@ -64,9 +67,13 @@ export class ProductGroupsService {
         );
       }
       queryBuilder.orderBy('productGroup.createdAt', sortOrder || 'DESC');
+      const totalCount = (await queryBuilder.getMany()).length;
       queryBuilder.skip((page - 1) * take).take(take);
 
-      return await queryBuilder.getMany();
+      return {
+        items: await queryBuilder.getMany(),
+        totalCount,
+      };
     } catch (error) {
       throw new BadRequestException(error?.message);
     }
