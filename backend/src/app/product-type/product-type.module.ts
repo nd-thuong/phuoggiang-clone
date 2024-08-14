@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { AdminProductTypeController } from './admin-product-type.controller';
+import { AdminProductTypeController } from './controllers/admin-product-type.controller';
 import { ProductTypeService } from './product-type.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductTypeEntity } from './product-type.entity';
-import { ProductTypeController } from './product-type.controller';
+import { ProductTypeController } from './controllers/product-type.controller';
 import { LoggerModule } from '@/logger/logger.module';
-import { ProductEntity } from '@/app/product/product.entity';
+import { ProductEntity } from '@/app/product/entities/product.entity';
 
 @Module({
   controllers: [AdminProductTypeController, ProductTypeController],

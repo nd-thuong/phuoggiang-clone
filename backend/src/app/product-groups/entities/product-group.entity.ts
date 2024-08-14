@@ -1,15 +1,14 @@
 import { BrandEntity } from '@/app/brands/entities/brand.entity';
-import { toVietnamTimezone } from '@/helpers/request.helper';
-import { ProductEntity } from '@/app/product/product.entity';
+import { ProductEntity } from '@/app/product/entities/product.entity';
+// import { toVietnamTimezone } from '@/helpers/request.helper';
 import { BaseEntity } from '@/utils/Base.entity';
 import {
-  BeforeInsert,
-  BeforeRemove,
-  BeforeUpdate,
+  // BeforeInsert,
+  // BeforeRemove,
+  // BeforeUpdate,
   Column,
   Entity,
   Index,
-  JoinTable,
   ManyToMany,
   OneToMany,
 } from 'typeorm';
@@ -30,18 +29,18 @@ export class ProductGroupEntity extends BaseEntity {
   @ManyToMany(() => BrandEntity, (brand) => brand.productGroups)
   brands: BrandEntity[];
 
-  @BeforeInsert()
-  setCreateDate() {
-    this.createdAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeInsert()
+  // setCreateDate() {
+  //   this.createdAt = toVietnamTimezone(new Date());
+  // }
 
-  @BeforeUpdate()
-  setUpdateDate() {
-    this.updatedAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeUpdate()
+  // setUpdateDate() {
+  //   this.updatedAt = toVietnamTimezone(new Date());
+  // }
 
-  @BeforeRemove()
-  setDeleteDate() {
-    this.deletedAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeRemove()
+  // setDeleteDate() {
+  //   this.deletedAt = toVietnamTimezone(new Date());
+  // }
 }

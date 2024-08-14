@@ -3,9 +3,9 @@ import {
   Column,
   Unique,
   OneToMany,
-  BeforeInsert,
-  BeforeUpdate,
-  BeforeRemove,
+  // BeforeInsert,
+  // BeforeUpdate,
+  // BeforeRemove,
   Index,
 } from 'typeorm';
 // import { BaseEntity } from '@/utils/Base.entity';
@@ -14,7 +14,7 @@ import { RefreshToken } from './refresh-token.entity';
 // import { UserDto } from './user.dto';
 import { Exclude } from 'class-transformer';
 import { GenderEnum, RoleEnum } from '@/utils/enum';
-import { toVietnamTimezone } from '@/helpers/request.helper';
+// import { toVietnamTimezone } from '@/helpers/request.helper';
 
 @Unique(['username'])
 @Unique(['email'])
@@ -53,18 +53,18 @@ export class UserEntity extends BaseEntity {
   })
   refreshTokens: RefreshToken[];
 
-  @BeforeInsert()
-  setCreateDate() {
-    this.createdAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeInsert()
+  // setCreateDate() {
+  //   this.createdAt = toVietnamTimezone(new Date());
+  // }
 
-  @BeforeUpdate()
-  setUpdateDate() {
-    this.updatedAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeUpdate()
+  // setUpdateDate() {
+  //   this.updatedAt = toVietnamTimezone(new Date());
+  // }
 
-  @BeforeRemove()
-  setDeleteDate() {
-    this.deletedAt = toVietnamTimezone(new Date());
-  }
+  // @BeforeRemove()
+  // setDeleteDate() {
+  //   this.deletedAt = toVietnamTimezone(new Date());
+  // }
 }

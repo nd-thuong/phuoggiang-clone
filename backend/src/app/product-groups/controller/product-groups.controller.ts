@@ -18,8 +18,8 @@ export class ProductGroupsController {
   ): Promise<ResponseResult<ProductGroupEntity>> {
     const results = await this.productGroupsService.findAll(query);
     return {
-      items: results,
-      totalCount: results.length,
+      items: results.items,
+      totalCount: results.totalCount,
     };
   }
 

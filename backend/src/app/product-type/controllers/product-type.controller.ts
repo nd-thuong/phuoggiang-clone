@@ -7,8 +7,6 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ProductTypeService } from './product-type.service';
-import { ProductTypeEntity } from './product-type.entity';
 import { ResponseResult } from '@/constants/response-result';
 import {
   QuerySearchDto,
@@ -17,7 +15,9 @@ import {
 import { ValidationQuery } from '@/middleware/ValidationQuery';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { LoggerService } from '@/logger/logger.service';
-import { ProductEntity } from '@/app/product/product.entity';
+import { ProductEntity } from '@/app/product/entities/product.entity';
+import { ProductTypeService } from '../product-type.service';
+import { ProductTypeEntity } from '../product-type.entity';
 
 @ApiTags('Product Type')
 @Controller('product-types')
@@ -36,8 +36,8 @@ export class ProductTypeController {
   ): Promise<ResponseResult<ProductTypeEntity>> {
     const kq = await this.productTypeService.getAll(query);
     return {
-      items: kq,
-      totalCount: kq.length as number,
+      items: kq.items,
+      totalCount: kq.totalCount,
     };
   }
 

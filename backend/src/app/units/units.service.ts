@@ -9,6 +9,7 @@ import { QuerySearchDto } from '@/utils/query-search.dto';
 import { UnitEntity } from './entities/unit.entity';
 import { CreateUnitDto } from './dto/create-unit.dto';
 import { UpdateUnitDto } from './dto/update-unit.dto';
+import { ResponseResult } from '@/constants/response-result';
 
 @Injectable()
 export class UnitService {
@@ -29,20 +30,26 @@ export class UnitService {
     }
   }
 
-  async findAll(valueQuery: QuerySearchDto): Promise<UnitEntity[]> {
+  async findAll(
+    valueQuery: QuerySearchDto,
+  ): Promise<ResponseResult<UnitEntity>> {
     try {
       const { page, take, keySearch, sortOrder } = valueQuery;
       const query = this.unitRepo.createQueryBuilder('unit');
       // query.leftJoinAndSelect('unit.products', 'product');
       if (keySearch) {
-        query.where('unit.name LIKE :name', {
+        query.where('unit.name ILIKE :name', {
           name: `%${keySearch}%`,
         });
       }
       query.orderBy('unit.createdAt', sortOrder || 'DESC');
+      const totalCount = (await query.getMany()).length;
       query.skip((page - 1) * take).take(take);
 
-      return await query.getMany();
+      return {
+        items: await query.getMany(),
+        totalCount,
+      };
     } catch (error) {
       throw new BadRequestException(error?.meseage);
     }

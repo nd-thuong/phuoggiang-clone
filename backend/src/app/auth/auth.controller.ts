@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -53,7 +54,6 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ): Promise<ResultLogin> {
     const user = await this.authService.register(body);
-    // return plainToInstance(UserDto, user);
     const accessToken: TypeAccessToken =
       await this.authService.generateAccessToken(user);
     const refreshToken = await this.authService.generateRefreshToken(user);
@@ -102,7 +102,7 @@ export class AuthController {
       ]);
       return { refreshToken: refreshToken.token };
     } catch (error) {
-      console.log(error);
+      throw new BadRequestException(error?.message);
     }
   }
 

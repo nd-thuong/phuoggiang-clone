@@ -5,6 +5,8 @@ import {
   GoneException,
   NotFoundException,
   UnauthorizedException,
+  HttpException,
+  HttpCode,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './user.entity';
@@ -39,97 +41,12 @@ export class AuthService {
     return await bcrypt.compare(password, hashedPassword);
   }
 
-  async generateRefreshToken(user: UserEntity): Promise<RefreshToken> {
-    const payload = {
-      username: user.username,
-      email: user.email,
-      id: user.id,
-      role: user.role,
-    };
-    const refreshTokenWithUser = await this.refreshTokenRepository.find({
-      where: {
-        userId: user.id,
-      },
-    });
-    const tokenRevoked = refreshTokenWithUser.find((el) => !el.isRevoked);
-    const validateRefreshToken = await this.validateRefreshToken(
-      tokenRevoked?.token,
-    );
-    if (!validateRefreshToken?.token || !tokenRevoked) {
-      const refreshToken = this.jwtService.sign(payload, {
-        expiresIn: '3d',
-        secret: this._configService.getOrThrow('APP_JWT_REFRESH_TOKEN_SECRET'),
-      });
-
-      // Lưu refreshToken vào cơ sở dữ liệu
-      const tokenEntity = this.refreshTokenRepository.create({
-        userId: user.id,
-        token: refreshToken,
-        isRevoked: false,
-        expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      });
-      await this.refreshTokenRepository.save(tokenEntity);
-      return tokenEntity;
-    }
-    return validateRefreshToken;
-  }
-
-  async generateAccessToken(user: UserEntity) {
-    const payload = {
-      username: user.username,
-      email: user.email,
-      id: user.id,
-      role: user.role,
-    };
-    const accessToken = this.jwtService.sign(payload, {
-      expiresIn: '12h',
-      secret: this._configService.getOrThrow('APP_JWT_ACCESS_TOKEN_SECRET'),
-    });
-    return {
-      token: accessToken,
-      expiresIn: 1000 * 60 * 60 * 12,
-    };
-  }
-
-  private async validateRefreshToken(token: string): Promise<RefreshToken> {
-    if (!token) {
-      return null;
-    }
-    try {
-      const tokenPayload = this.jwtService.verify(token, {
-        secret: this._configService.getOrThrow('APP_JWT_REFRESH_TOKEN_SECRET'),
-      });
-      if (tokenPayload) {
-        const tokenDb = await this.refreshTokenRepository.findOne({
-          where: { token },
-        });
-
-        if (!tokenDb || tokenDb.isRevoked) {
-          throw new UnauthorizedException('The token has been revoked');
-        }
-
-        return tokenDb;
-      }
-    } catch (err) {
-      return null;
-    }
-  }
-
-  private verifyRefreshToken(token: string) {
-    let payload;
-    try {
-      payload = this.jwtService.verify(token, {
-        secret: this._configService.get('APP_JWT_REFRESH_TOKEN_SECRET'),
-      });
-    } catch (error) {
-      throw new BadRequestException('Wrong refresh token');
-    }
-    return payload;
-  }
-
   async register(data: RegisterDto): Promise<UserEntity> {
     try {
-      const { password } = data;
+      const { password, checkCreate, role } = data;
+      if (role === 'admin' && checkCreate !== 'thuongnd') {
+        throw new HttpException('Không thể tạo tài khoản với role admin', 500);
+      }
       const passwordHash = await this.generateHash(password);
       const user = this.userRepository.create({
         ...data,
@@ -243,6 +160,97 @@ export class AuthService {
     } catch (err) {
       throw new BadRequestException(err?.message);
     }
+  }
+
+  async generateRefreshToken(user: UserEntity): Promise<RefreshToken> {
+    const payload = {
+      username: user.username,
+      email: user.email,
+      id: user.id,
+      role: user.role,
+    };
+    const refreshTokenWithUser = await this.refreshTokenRepository.find({
+      where: {
+        userId: user.id,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
+    const tokenRevoked = refreshTokenWithUser.find((el) => !el.isRevoked);
+    const validateRefreshToken = await this.validateRefreshToken(
+      tokenRevoked?.token,
+    );
+    if (!validateRefreshToken?.token || !tokenRevoked) {
+      const refreshToken = this.jwtService.sign(payload, {
+        expiresIn: '3d',
+        secret: this._configService.getOrThrow('APP_JWT_REFRESH_TOKEN_SECRET'),
+      });
+
+      // Lưu refreshToken vào cơ sở dữ liệu
+      const tokenEntity = this.refreshTokenRepository.create({
+        userId: user.id,
+        token: refreshToken,
+        isRevoked: false,
+        expiryDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+      });
+      await this.refreshTokenRepository.save(tokenEntity);
+      return tokenEntity;
+    }
+    return validateRefreshToken;
+  }
+
+  async generateAccessToken(user: UserEntity) {
+    const payload = {
+      username: user.username,
+      email: user.email,
+      id: user.id,
+      role: user.role,
+    };
+    const accessToken = this.jwtService.sign(payload, {
+      expiresIn: '12h',
+      secret: this._configService.getOrThrow('APP_JWT_ACCESS_TOKEN_SECRET'),
+    });
+    return {
+      token: accessToken,
+      expiresIn: 1000 * 60 * 60 * 12,
+    };
+  }
+
+  private async validateRefreshToken(token: string): Promise<RefreshToken> {
+    if (!token) {
+      return null;
+    }
+    try {
+      const tokenPayload = this.jwtService.verify(token, {
+        secret: this._configService.getOrThrow('APP_JWT_REFRESH_TOKEN_SECRET'),
+      });
+      if (tokenPayload) {
+        const tokenDb = await this.refreshTokenRepository.findOne({
+          where: { token },
+        });
+
+        if (!tokenDb || tokenDb.isRevoked) {
+          throw new UnauthorizedException('The token has been revoked');
+        }
+
+        return tokenDb;
+      }
+    } catch (err) {
+      return null;
+    }
+  }
+
+  private verifyRefreshToken(token: string) {
+    let payload;
+    try {
+      payload = this.jwtService.verify(token, {
+        secret: this._configService.get('APP_JWT_REFRESH_TOKEN_SECRET'),
+      });
+    } catch (error) {
+      throw new BadRequestException('Wrong refresh token');
+    }
+    return payload;
   }
 
   async refreshToken(user: UserEntity) {

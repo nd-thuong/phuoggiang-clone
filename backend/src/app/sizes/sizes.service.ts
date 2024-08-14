@@ -10,7 +10,8 @@ import { EntityManager, Repository } from 'typeorm';
 import { SizeEntity } from './entities/size.entity';
 import { generateName } from '@/utils/generate-code';
 import { QuerySearchDto } from '@/utils/query-search.dto';
-import { ProductEntity } from '@/app/product/product.entity';
+import { ProductEntity } from '@/app/product/entities/product.entity';
+import { ResponseResult } from '@/constants/response-result';
 
 @Injectable()
 export class SizesService {
@@ -35,21 +36,27 @@ export class SizesService {
     }
   }
 
-  async findAll(valueQuery: QuerySearchDto): Promise<SizeEntity[]> {
+  async findAll(
+    valueQuery: QuerySearchDto,
+  ): Promise<ResponseResult<SizeEntity>> {
     try {
       const { page, take, keySearch, sortOrder } = valueQuery;
       const query = this.sizeRepo.createQueryBuilder('size');
       // query.leftJoinAndSelect('size.products', 'product');
       if (keySearch) {
-        query.where('size.name LIKE :name OR size.code LIKE :code', {
+        query.where('size.name ILIKE :name OR size.code ILIKE :code', {
           name: `%${keySearch}%`,
           code: `%${keySearch}%`,
         });
       }
       query.orderBy('size.createdAt', sortOrder || 'DESC');
+      const totalCount = (await query.getMany()).length;
       query.skip((page - 1) * take).take(take);
 
-      return await query.getMany();
+      return {
+        items: await query.getMany(),
+        totalCount,
+      };
     } catch (error) {
       throw new BadRequestException('Đã có lỗi xảy ra');
     }

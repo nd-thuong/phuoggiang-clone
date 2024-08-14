@@ -7,6 +7,7 @@ import {
   BadRequestException,
   Delete,
   Body,
+  Patch,
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { MaxSizeFile } from '@/utils/enum';
@@ -16,7 +17,7 @@ import { FileUploadEntity } from '../entities/file-upload.entity';
 import { RemoveFileDto } from '../dto/upload-file.dto';
 
 @ApiTags('uploads')
-@Controller('cloundinary-upload')
+@Controller('cloudinary-upload')
 export class CloundinaryUploadFilesController {
   constructor(private readonly cloundinaryService: CloudinaryService) {}
 
@@ -60,11 +61,11 @@ export class CloundinaryUploadFilesController {
     }
   }
 
-  @Delete()
-  async deleteFile(@Body() { filenames }: RemoveFileDto): Promise<boolean> {
+  @Patch()
+  async deleteFile(@Body() { filename, id }: RemoveFileDto): Promise<boolean> {
     try {
-      const result = await this.cloundinaryService.removeFiles(filenames);
-      return result.every((el) => el);
+      await this.cloundinaryService.removeFile(filename, id);
+      return true;
     } catch (error) {
       throw new BadRequestException(error?.message);
     }

@@ -94,33 +94,26 @@ export class MulterConfigService implements MulterOptionsFactory {
     };
   }
 
-  public async removeFile(filenames: string[]): Promise<boolean> {
+  public async removeFile(filename: string): Promise<boolean> {
     const filesNotFound = [];
     // Kiểm tra sự tồn tại của tất cả các file
-    for (const fileName of filenames) {
-      const filePath = path.join(__dirname, '../../../uploads', fileName);
-      // Nếu file không tồn tại, thêm vào danh sách filesNotFound
-      if (!fs.existsSync(filePath)) {
-        filesNotFound.push(fileName);
-      }
+    const filePath = path.join(__dirname, '../../../../uploads', filename);
+    // Nếu file không tồn tại, thêm vào danh sách filesNotFound
+    if (!fs.existsSync(filePath)) {
+      filesNotFound.push(filename);
     }
 
     if (filesNotFound.length > 0) {
       // Nếu có file không tồn tại, trả về lỗi và danh sách các file không tìm thấy
       throw new BadRequestException(
-        `Các file này không tồn tại: ${filesNotFound.join(', ')}`,
+        `File này không tồn tại: ${filesNotFound.join(', ')}`,
       );
     }
 
     try {
       // Tất cả các file đều tồn tại, tiến hành xóa
-      const deletionPromises = filenames.map((fileName) => {
-        const filePath = path.join(__dirname, '../../../uploads', fileName);
-        return fs.promises.unlink(filePath);
-      });
-
-      // Chờ xóa hết tất cả các file
-      await Promise.all(deletionPromises);
+      const filePath = path.join(__dirname, '../../../../uploads', filename);
+      fs.promises.unlink(filePath);
       return true;
     } catch (error) {
       throw new HttpException('Lỗi xóa file', HttpStatus.INTERNAL_SERVER_ERROR);

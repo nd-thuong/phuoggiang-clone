@@ -7,13 +7,12 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { ProductService } from './product.service';
-import { ProductEntity } from './product.entity';
-import { QuerySearchDto } from '@/utils/query-search.dto';
+import { ProductService } from '../product.service';
+import { ProductEntity } from '../entities/product.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ResponseResult } from '@/constants/response-result';
 import { ValidationQuery } from '@/middleware/ValidationQuery';
-import { QuerySearchProduct } from './product-dto';
+import { QuerySearchProduct } from '../dto/product-dto';
 
 @ApiTags('products')
 @Controller('products')
@@ -29,8 +28,8 @@ export class ProductController {
   ): Promise<ResponseResult<ProductEntity>> {
     const products = await this.productService.getAll(query);
     return {
-      items: products,
-      totalCount: products.length,
+      items: products.items,
+      totalCount: products.totalCount,
     };
   }
 

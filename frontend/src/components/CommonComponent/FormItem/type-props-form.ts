@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import dayjs, { Dayjs } from 'dayjs';
 
 export interface OptionSelect {
-  value: string;
+  value: string | null;
   label: string;
 }
 
@@ -53,7 +53,7 @@ export interface RenderChildrenProps {
   onClear?: () => void;
   dropdownRender?: (menu: React.ReactElement) => React.ReactElement;
   onSelect?: () => void;
-  allowClear?: boolean;
+  allowclear?: boolean;
   picker?: PickerMode;
   radioInline?: boolean;
   disabledKeys?: any[];
@@ -87,6 +87,8 @@ export interface RenderChildrenProps {
   showSearch?: boolean;
   disabledTime?: DisabledTime;
   minuteStep?: number;
+  checkedChildren?: ReactNode | string;
+  unCheckedChildren?: ReactNode | string;
 }
 
 export interface FormItemProps extends RenderChildrenProps {

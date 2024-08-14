@@ -5,7 +5,7 @@ import { AdminBrandController } from './controller/admin-brands.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BrandEntity } from './entities/brand.entity';
 import { LoggerModule } from '@/logger/logger.module';
-import { ProductEntity } from '@/app/product/product.entity';
+import { ProductEntity } from '@/app/product/entities/product.entity';
 import { SizeEntity } from '@/app/sizes/entities/size.entity';
 
 @Module({

@@ -79,7 +79,14 @@ export const variables = {
     MAX_LENGTH_1000: { max: 1000, message: 'Trường này không quá 1000 kí tự' },
     MAX_LENGTH_100: { max: 100, message: 'Trường này không quá 100 kí tự' },
     MAX_NUMBER: { max: 15, message: 'Trường này không quá 15 kí tự' },
-    NUMBER: { pattern: /^[1-9]\d*$/, message: 'Trường này là chỉ nhập số nguyên và lớn hơn 0' },
+    NUMBER: {
+      pattern: /^[1-9]\d*(,\d+)*$/,
+      message: 'Trường này là chỉ nhập số nguyên và lớn hơn 0',
+    },
+    FLOAT_NUMBER: {
+      pattern: /^(?!0(\.0+)?$)\d+(\.\d+)?$/,
+      message: 'Trường này chỉ nhập số và lớn hơn 0',
+    },
     CMND: { pattern: /^\d+$/, message: 'Trường này là chỉ là số CMND' },
     NEGATIVE_NUMBER: { pattern: /^-\d*\.?\d+$/, message: 'Trường này chỉ là số dương' },
     EMAIL: { type: 'email', message: 'Trường này là email', required: true },
@@ -126,7 +133,7 @@ export const variables = {
   },
   // DATE FORMAT
   DATE_FORMAT: {
-    DATE_ENG: 'YYYY-MM-DD hh:mm',
+    DATE_ENG: 'YYYY-MM-DD HH:mm',
     DATE: 'DD-MM-YYYY',
     DATE_TIME: 'DD-MM-YYYY, HH:mm',
     FULL_DATE_TIME: 'DD-MM-YYYY, HH:mm',

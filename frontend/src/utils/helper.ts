@@ -1,11 +1,14 @@
 import { ParamsSearch } from '@/types/response-request';
 import { Modal, notification } from 'antd';
 import { AxiosError } from 'axios';
-import { get, isArray } from 'lodash';
+import { get, isArray, isString } from 'lodash';
 import React, { ReactNode } from 'react';
 import dayjs from 'dayjs';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { variables } from './variables';
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import 'dayjs/locale/vi';
 
 const { confirm } = Modal;
 
@@ -18,7 +21,13 @@ export const removeItem = () => {
   return localStorage.removeItem('rf');
 };
 
-export const notificationError = (err: AxiosError) => {
+export const notificationError = (err: AxiosError | string) => {
+  if (isString(err)) {
+    notification.error({
+      message: 'Thông báo',
+      description: err,
+    });
+  }
   const errors: any = get(err, 'response.data.errors');
   if (isArray(errors)) {
     notification.error({
@@ -62,8 +71,24 @@ export const generateQueryString = (params: ParamsSearch): string => {
   return queryParts.join('&');
 };
 
-export const getDate = (date: string) => {
-  return dayjs(date).format(variables.DATE_FORMAT.DATE_VI);
+export const getDate = (
+  date: string,
+  fortmat?: string,
+  isEndOfDay?: boolean,
+  isStartOfDay?: boolean
+) => {
+  dayjs.locale('vi');
+  if (isStartOfDay) {
+    return dayjs(date)
+      .startOf('date')
+      .format(fortmat || variables.DATE_FORMAT.DATE);
+  }
+  if (isEndOfDay) {
+    return dayjs(date)
+      .endOf('date')
+      .format(fortmat || variables.DATE_FORMAT.DATE);
+  }
+  return dayjs(date).format(fortmat || variables.DATE_FORMAT.DATE);
 };
 
 export const confirmAction = ({ cb, title }: { cb: () => void; title?: string }) => {

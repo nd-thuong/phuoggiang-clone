@@ -13,8 +13,10 @@ export interface ParamsSearch {
   take: number;
   keySearch?: string;
   sortOrder?: 'ASC' | 'DESC';
+  showHomePage?: 'Yes' | 'No' | 'Both';
   fromDate?: string | null;
   toDate?: string | null;
+  productId?: string | null;
 }
 
 export interface BaseTypeResponse {

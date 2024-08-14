@@ -10,6 +10,7 @@ import { QuerySearchDto } from '@/utils/query-search.dto';
 import { BrandEntity } from './entities/brand.entity';
 import { CreateBrandDto } from './dto/create-brand.dto';
 import { UpdateBrandDto } from './dto/update-brand.dto';
+import { ResponseResult } from '@/constants/response-result';
 
 @Injectable()
 export class BrandService {
@@ -30,20 +31,25 @@ export class BrandService {
     }
   }
 
-  async findAll(valueQuery: QuerySearchDto): Promise<BrandEntity[]> {
+  async findAll(
+    valueQuery: QuerySearchDto,
+  ): Promise<ResponseResult<BrandEntity>> {
     try {
       const { page, take, keySearch, sortOrder } = valueQuery;
       const query = this.brandRepo.createQueryBuilder('brand');
       // query.leftJoinAndSelect('size.products', 'product');
       if (keySearch) {
-        query.where('brand.name LIKE :name', {
+        query.where('brand.name ILIKE :name', {
           name: `%${keySearch}%`,
         });
       }
       query.orderBy('brand.createdAt', sortOrder || 'DESC');
-      query.skip((page - 1) * take).take(take);
+      const [items, totalCount] = await query
+        .skip((page - 1) * take)
+        .take(take)
+        .getManyAndCount();
 
-      return await query.getMany();
+      return { items, totalCount };
     } catch (error) {
       throw new BadRequestException('Đã có lỗi xảy ra');
     }

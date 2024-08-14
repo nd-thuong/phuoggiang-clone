@@ -31,17 +31,16 @@ const Index = () => {
                   <Flex gap={10} align="center" justify="flex-start">
                     <LocationIcon />
                     <p>
-                      Địa chỉ: Số 123 Hùng Vương, Phường Nhơn Phú, TP. Quy Nhơn, Tỉnh Bình Định,
-                      Việt Nam
+                      Địa chỉ: Số 113 Hùng Vương, Phường ABC, TP. Quy Nhơn, Tỉnh Bình Định, Việt Nam
                     </p>
                   </Flex>
                   <Flex gap={5} align="center" justify="flex-start">
                     <PhoneWhiteIcon />
-                    <p>Hotline: 0935648943</p>
+                    <p>Hotline: 0909153349</p>
                   </Flex>
                   <Flex gap={5} align="center" justify="flex-start">
                     <EmailWhiteIcon />
-                    <p>Email : mayMail@gmail.com</p>
+                    <p>Email : meo@gmail.com</p>
                   </Flex>
                 </Flex>
               </Flex>
