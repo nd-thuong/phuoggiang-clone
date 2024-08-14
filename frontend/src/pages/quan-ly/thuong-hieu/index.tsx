@@ -85,7 +85,7 @@ const Index = () => {
       key: 'date',
       title: 'Ngày tạo',
       width: 300,
-      render: (record) => getDate(record?.createdAt),
+      render: (record) => getDate(record?.createdAt, variables.DATE_FORMAT.DATE_TIME),
     },
     {
       key: 'name',

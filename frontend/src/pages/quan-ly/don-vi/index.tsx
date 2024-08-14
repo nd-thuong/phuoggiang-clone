@@ -86,7 +86,7 @@ const Index = () => {
       key: 'date',
       title: 'Ngày tạo',
       width: 300,
-      render: (record) => getDate(record?.createdAt),
+      render: (record) => getDate(record?.createdAt, variables.DATE_FORMAT.DATE_TIME),
     },
     {
       key: 'name',
@@ -136,10 +136,11 @@ const Index = () => {
     }
   };
 
-  const onChangePage = (page: number) => {
+  const onChangePage = (page: number, pageSize: number) => {
     setSearch((prev) => ({
       ...prev,
       page,
+      take: pageSize,
     }));
   };
 

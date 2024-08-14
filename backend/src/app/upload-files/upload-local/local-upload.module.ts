@@ -14,5 +14,6 @@ import { FileUploadEntity } from '../entities/file-upload.entity';
     }),
     TypeOrmModule.forFeature([FileUploadEntity]),
   ],
+  exports: [MulterConfigService],
 })
-export class LoacalUploadFilesModule {}
+export class LocalUploadFilesModule {}

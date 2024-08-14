@@ -22,9 +22,20 @@ export class ValidationBodyData<T extends object> implements NestInterceptor {
     const data = plainToClass(this.dto, body);
     const errors = await validate(data);
     if (errors.length > 0) {
-      const validationErrors = errors.map((error) =>
-        Object.values(error.constraints),
-      );
+      const validationErrors = errors.map((error) => {
+        if (error.constraints) {
+          return Object.values(error.constraints);
+        }
+        if (error.children.length) {
+          const a = error.children.map((el) => {
+            return el.children.map((item) => {
+              return Object.values(item.constraints);
+            });
+          });
+          return a;
+        }
+        return [];
+      });
       throw new HttpException(
         {
           message: 'Validation failed',

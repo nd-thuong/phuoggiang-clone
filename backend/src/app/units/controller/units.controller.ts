@@ -18,8 +18,8 @@ export class UnitsController {
   ): Promise<ResponseResult<UnitEntity>> {
     const units = await this.unitsService.findAll(query);
     return {
-      items: units,
-      totalCount: units.length,
+      items: units.items,
+      totalCount: units.totalCount,
     };
   }
 

@@ -1,4 +1,4 @@
-import { ProductTypeEntity } from './product-type.entity';
+import { ProductTypeEntity } from '../product-type.entity';
 import {
   Body,
   Controller,
@@ -9,8 +9,8 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ProductTypeService } from './product-type.service';
-import { ProductTypeDto } from './product-type.dto';
+import { ProductTypeService } from '../product-type.service';
+import { ProductTypeDto } from '../product-type.dto';
 import { JwtAuthenticationGuard } from '@/guards/jwt-authentication.guard';
 import { RolesGuard } from '@/guards/role.guard';
 import { plainToClass } from 'class-transformer';

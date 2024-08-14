@@ -3,7 +3,6 @@ import { PasswordValidator } from '@/custom-validator/Password';
 import {
   IsEnum,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -37,6 +36,9 @@ export class RegisterDto {
   @IsEnum(RoleEnum)
   @IsOptional()
   role: RoleEnum;
+
+  @IsOptional()
+  checkCreate?: string;
 }
 
 export class LoginDto {

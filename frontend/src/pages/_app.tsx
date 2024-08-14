@@ -3,14 +3,9 @@ import type { AppProps } from 'next/app';
 import MainLayout from '@/components/layouts/MainLayout';
 import AdminLayout from '@/components/layouts/AdminLayout';
 import { usePathname } from 'next/navigation';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
+import 'suneditor/dist/css/suneditor.min.css';
 
-dayjs.extend(utc);
-dayjs.extend(timezone);
 export default function App({ Component, pageProps }: AppProps) {
-  dayjs.tz.setDefault('Asia/Ho_Chi_Minh');
   const pathname = usePathname();
 
   if (pathname?.includes('/quan-ly')) {

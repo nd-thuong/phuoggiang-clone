@@ -19,12 +19,16 @@ import { BrandsModule } from './app/brands/brands.module';
 import { BrandEntity } from './app/brands/entities/brand.entity';
 import { ProductGroupsModule } from './app/product-groups/product-groups.module';
 import { ProductGroupEntity } from './app/product-groups/entities/product-group.entity';
-import { UnitsModule } from './units/units.module';
-import { UnitEntity } from './units/entities/unit.entity';
+import { UnitsModule } from './app/units/units.module';
+import { UnitEntity } from './app/units/entities/unit.entity';
 import { UploadFilesModule } from './app/upload-files/upload-files.module';
 import { FileUploadEntity } from './app/upload-files/entities/file-upload.entity';
-import { ProductEntity } from './app/product/product.entity';
+import { ProductEntity } from './app/product/entities/product.entity';
 import { ProductModule } from './app/product/product.module';
+import { UnitConversionEntity } from './app/product/entities/unit-conversions.entity';
+import { InventoryEntity } from './app/inventories/entities/inventory.entity';
+import { InventoriesModule } from './app/inventories/inventories.module';
+import { InventoryEntryEntity } from './app/inventories/entities/inventory_entries.entity';
 
 config();
 
@@ -39,11 +43,7 @@ config();
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => {
-        console.log('processssss', process.env.NODE_ENV);
-        // const nodeEnv = configService.get<string>('NODE_ENV');
         const url: string = configService.get<string>('POSTGRES_URL');
-
-        console.log('url:', url);
         return {
           type: 'postgres',
           url,
@@ -58,6 +58,9 @@ config();
             ProductGroupEntity,
             UnitEntity,
             FileUploadEntity,
+            UnitConversionEntity,
+            InventoryEntity,
+            InventoryEntryEntity,
           ],
           synchronize: true,
           logger: new DatabaseLogger(),
@@ -74,6 +77,7 @@ config();
     ProductGroupsModule,
     UnitsModule,
     UploadFilesModule,
+    InventoriesModule,
   ],
 })
 export class AppModule {

@@ -19,6 +19,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       inject: [ConfigService],
     },
   ],
-  exports: [CloudinaryProvider, CloudinaryService],
+  exports: [CloudinaryProvider, CloudinaryService, CloudinaryService],
 })
 export class CloudinaryModule {}

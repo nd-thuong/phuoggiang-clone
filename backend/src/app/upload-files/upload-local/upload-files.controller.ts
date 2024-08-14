@@ -7,6 +7,7 @@ import {
   Body,
   Delete,
   BadRequestException,
+  Patch,
 } from '@nestjs/common';
 import { MulterConfigService } from './multer-config.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
@@ -38,8 +39,8 @@ export class UploadFilesController {
       const fileCreate = this.fileRepository.create({
         originalname: file.originalname,
         mimetype: file.mimetype,
-        filename: file.filename, // Cloudinary public ID
-        path: file.path, // URL to access the file
+        filename: file.filename,
+        path: file.path,
         size: file.size,
       });
       await this.fileRepository.save(fileCreate);
@@ -75,16 +76,14 @@ export class UploadFilesController {
     }
   }
 
-  @Delete()
-  async deleteFile(@Body() { filenames }: RemoveFileDto): Promise<boolean> {
+  @Patch()
+  async deleteFile(@Body() { filename, id }: RemoveFileDto): Promise<boolean> {
     try {
-      const kq = await this.multerService.removeFile(filenames);
+      const kq = await this.multerService.removeFile(filename);
       if (kq) {
-        for (const filename of filenames) {
-          const file = await this.fileRepository.findOneBy({ filename });
-          if (file) {
-            await this.fileRepository.remove(file);
-          }
+        const file = await this.fileRepository.findOneBy({ id });
+        if (file) {
+          await this.fileRepository.remove(file);
         }
       }
       return kq;

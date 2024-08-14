@@ -4,7 +4,7 @@ import { RenderChildrenProps } from '../type-props-form';
 export const FormSelect: React.FC<RenderChildrenProps> = ({
   options,
   optionClassName,
-  allowClear,
+  allowclear = false,
   onChange,
   value,
   disabled,
@@ -20,13 +20,14 @@ export const FormSelect: React.FC<RenderChildrenProps> = ({
   loading,
   filterOption = true,
   showSearch = false,
-  placeholder,
+  placeholder = 'Chọn',
+  className,
 }) => (
   <Select
     onChange={onChange}
     popupClassName={popupClassName}
     loading={loading}
-    allowClear={allowClear}
+    allowClear={allowclear}
     value={value}
     disabled={disabled}
     autoFocus={autoFocus}
@@ -40,6 +41,7 @@ export const FormSelect: React.FC<RenderChildrenProps> = ({
     filterOption={filterOption}
     showSearch={showSearch}
     placeholder={placeholder}
+    className={className}
   >
     {options?.map((item) => (
       <Select.Option value={item.value} key={item.value} clasName={optionClassName}>

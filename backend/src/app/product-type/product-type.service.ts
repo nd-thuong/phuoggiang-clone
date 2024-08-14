@@ -14,7 +14,8 @@ import {
 } from '@/utils/query-search.dto';
 import { createSlug } from '@/utils/generate-slug';
 import { generateName } from '@/utils/generate-code';
-import { ProductEntity } from '@/app/product/product.entity';
+import { ProductEntity } from '@/app/product/entities/product.entity';
+import { ResponseResult } from '@/constants/response-result';
 
 @Injectable()
 export class ProductTypeService {
@@ -31,12 +32,12 @@ export class ProductTypeService {
     try {
       const count = await this.productTypeRepo.count();
       const code = generateName('LSP', count + 1);
-      const result = this.productTypeRepo.create({
+      const productType = this.productTypeRepo.create({
         ...data,
         code,
         slug: createSlug(data.name),
       });
-      await this.productTypeRepo.save(result);
+      const result = await this.productTypeRepo.save(productType);
       return result;
     } catch (error) {
       if (error.code === '23505') {
@@ -91,21 +92,27 @@ export class ProductTypeService {
     });
   }
 
-  async getAll(valueQuery: QuerySearchDto): Promise<ProductTypeEntity[]> {
+  async getAll(
+    valueQuery: QuerySearchDto,
+  ): Promise<ResponseResult<ProductTypeEntity>> {
     try {
       const { page, take, keySearch, sortOrder } = valueQuery;
       const query = this.productTypeRepo.createQueryBuilder('productType');
       // query.leftJoinAndSelect('productType.products', 'product');
       if (keySearch) {
         query.where(
-          'productType.name LIKE :name OR productType.code LIKE :code',
+          'productType.name ILIKE :name OR productType.code ILIKE :code',
           { name: `%${keySearch}%`, code: `%${keySearch}%` },
         );
       }
       query.orderBy('productType.createdAt', sortOrder || 'DESC');
+      const totalCount = (await query.getMany()).length;
       query.skip((page - 1) * take).take(take);
 
-      return await query.getMany();
+      return {
+        items: await query.getMany(),
+        totalCount,
+      };
     } catch (error) {
       throw new BadRequestException('Đã có lỗi xảy ra');
     }

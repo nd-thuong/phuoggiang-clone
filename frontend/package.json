@@ -11,6 +11,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
     "@ant-design/nextjs-registry": "^1.0.0",
+    "@types/uuid": "^10.0.0",
     "antd": "^5.15.3",
     "axios": "^1.6.8",
     "classnames": "^2.5.1",
@@ -22,6 +23,9 @@
     "sass": "^1.72.0",
     "sharp": "^0.33.4",
     "simplebar-react": "^3.2.5",
+    "suneditor": "^2.45.1",
+    "suneditor-react": "^3.6.1",
+    "uuid": "^10.0.0",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

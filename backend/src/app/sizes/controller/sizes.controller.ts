@@ -28,8 +28,8 @@ export class SizesController {
   ): Promise<ResponseResult<SizeEntity>> {
     const sizes = await this.sizesService.findAll(queryDto);
     return {
-      items: sizes,
-      totalCount: sizes.length,
+      items: sizes.items,
+      totalCount: sizes.totalCount,
     };
   }
 

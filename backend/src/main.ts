@@ -31,14 +31,6 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
   app.enableCors(corsOptionsDelegate(CorsConfig));
-  // app.enableCors({
-  //   // origin: '*',
-  //   origin: 'http://localhost:3000',
-  //   preflightContinue: false,
-  //   credentials: true,
-  //   allowedHeaders: ['Content-Type', 'Authorization'],
-  //   methods: ['GET', 'HEAD', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  // });
 
   // các api bắt đầu với tiền tố api/
   app.setGlobalPrefix('api');
@@ -53,6 +45,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   await app.listen(4000);
-  Logger.debug(` API run in `, 'NestApplication');
+  Logger.debug(`API run in`, 'NestApplication');
 }
 bootstrap();

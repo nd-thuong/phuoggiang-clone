@@ -10,10 +10,10 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ProductDto } from './product-dto';
-import { ProductService } from './product.service';
+import { ProductDto } from '../dto/product-dto';
+import { ProductService } from '../product.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { ProductEntity } from './product.entity';
+import { ProductEntity } from '../entities/product.entity';
 import { ValidationBodyData } from '@/middleware/ValidationBodyData';
 
 @ApiTags('products')
@@ -38,6 +38,7 @@ export class AdminProductController {
     @Body() data: ProductDto,
     @Param('id') id: string,
   ): Promise<ProductEntity> {
+    // console.log('bodyccc', data);
     return await this.productService.updateProduct(data, id);
   }
 
